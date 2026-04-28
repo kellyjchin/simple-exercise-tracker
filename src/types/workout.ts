@@ -4,3 +4,8 @@ export type WorkoutLog = {
     date: string,
     notes: string,
 }
+
+export type WorkoutFormData = {
+    date: string,
+    notes: string,
+}

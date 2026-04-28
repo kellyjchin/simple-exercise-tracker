@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
-import type { WorkoutLog } from '../types/workout'
+import type { WorkoutLog, WorkoutFormData } from '../types/workout'
+import { supabase } from '../lib/supabase'
+import type { Session } from '@supabase/supabase-js'
 
-type WorkoutFormData = {
-    date: string,
-    notes: string,
+
+type Props = {
+    session: Session | null
 }
 
-export default function Dashboard() {
+export default function Dashboard({ session }: Props) {
 
     const [logs, setLogs] = useState<WorkoutLog[]>([])
     const [formData, setFormData] = useState<WorkoutFormData>({
@@ -15,40 +17,80 @@ export default function Dashboard() {
         notes: '',
     })
 
+    useEffect(() => {
+        if(!session) return
+        const fetchLogs = async () => {
+            const {data, error} = await supabase.from('simple_workout_log').select('*').returns<WorkoutLog[]>()
+            if(error) {
+                console.error('Error fetching workout logs:', error)
+                return
+            }
+            setLogs(data ?? [])
+        }
+        fetchLogs()
+    }, [session])
+
     const [editingId, setEditingId] = useState<string | null>(null)
     const [editForm, setEditForm] = useState<WorkoutFormData | null>(null)
 
-    function handleSubmit(e: React.FormEvent) {
+    async function handleSubmit(e: React.FormEvent) {
         e.preventDefault()
+        if(!session) return;
+        if( !formData.date || !formData.notes) return;
+            
+        const { date, notes } = formData;
+        const { data, error } = await supabase
+            .from('simple_workout_log')
+            .insert({
+                user_id: session.user.id,
+                date: date,
+                notes: notes
+            })
+            .select()
+            .returns<WorkoutLog[]>()
 
-        if( !formData.date || !formData.notes) {
+
+        if(error) {
+            console.error('Error adding workout log:', error)
             return
         }
 
-        const { date, notes } = formData
-        const newLog: WorkoutLog = {
-            id: crypto.randomUUID(),
-            user_id: 'temp-user', // This should come from your auth system
-            date: date,
-            notes: notes,
-        }
-        setLogs( prev => [newLog, ...prev])
-
-        setFormData({
-            date: '',
-            notes: '',
-        })
-
-        console.log(logs);
+        setLogs(prev => [...prev, ...(data ?? [])])
+        setFormData({ date: '', notes: ''})
     }
 
-    const handleDelete = (id: string) => {
+    const handleDelete = async (id: string) => {
+        const { error } = await supabase
+            .from('simple_workout_log')
+            .delete()
+            .eq('id', id)
+        
+        if(error) {
+            console.error('Error deleting workout log:', error)
+            return
+        }
         setLogs(prev => prev.filter(log => log.id !== id))
     }
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (!editForm || !editingId) return
-        setLogs( prev => prev.map(log => log.id === editingId ? { ...log, ...editForm! } : log))
+
+        const { error } = await supabase
+            .from('simple_workout_log')
+            .update({
+                date: editForm.date,
+                notes: editForm.notes,
+            })
+            .eq('id', editingId)
+            .select()
+
+        if(error) {
+            console.error('Error updating workout log:', error)
+            return
+        }
+
+        setLogs(prev => prev.map(log => log.id === editingId ? { ...log, ...editForm } : log))
+
         setEditingId(null)
         setEditForm(null)
     }
