@@ -3,13 +3,11 @@ import { useState } from 'react'
 import type { WorkoutLog, WorkoutFormData } from '../types/workout'
 import { supabase } from '../lib/supabase'
 import type { Session } from '@supabase/supabase-js'
+import { useAuth } from '../context/AuthContext'
 
+export default function Dashboard() {
 
-type Props = {
-    session: Session | null
-}
-
-export default function Dashboard({ session }: Props) {
+    const { session } = useAuth();
 
     const [logs, setLogs] = useState<WorkoutLog[]>([])
     const [formData, setFormData] = useState<WorkoutFormData>({

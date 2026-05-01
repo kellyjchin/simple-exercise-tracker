@@ -16,14 +16,12 @@ function App() {
         <div>Please sign in</div>
       )}
 
-      {/* {session ? <Dashboard session={session}/> : null} */}
-
       <Routes>
         <Route path="/login" element={<Auth />} />
         <Route path="/dashboard" 
           element={
           <ProtectedRoute>
-            <Dashboard session={session} />
+            <Dashboard />
           </ProtectedRoute>
           } 
         />

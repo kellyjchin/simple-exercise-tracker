@@ -1,15 +1,22 @@
 import React from 'react'
-import { supabase } from '../lib/supabase'
 import { useState } from 'react'
 import { useNavigate, type NavigateFunction } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 
 function Auth() {
+    // hooks
+    const navigate: NavigateFunction = useNavigate()
+    const { signIn, signUp, session } = useAuth();
+
+    if(session) navigate('/dashboard')
+    
+    // state
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [isLogin, setIsLogin] = useState<boolean>(true)
     const [errorMsg, setErrorMsg] = useState<string>('');
 
-    const navigate: NavigateFunction = useNavigate()
+
 
     const handleAuth = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -18,29 +25,25 @@ function Auth() {
         if(!email || !password) return;
 
         if (isLogin) {
-            const { error } = await supabase.auth.signInWithPassword({
-                email,
-                password
-            })
-
+            const result = await signIn(email, password)
+            const { error } = result;
             if (error) {
                 console.error(error.message)
                 setErrorMsg(error.message);
-            } else {
-                navigate('/dashboard')
+                return;
             }
-        } else {
-            const { error } = await supabase.auth.signUp({
-                email,
-                password
-            })
-            if (error) {
-                console.error(error.message)
-                setErrorMsg(error.message);
-            } else {
-                navigate('/dashboard')
-            }
+            navigate('/dashboard')
+            return;    
         }
+
+        const result = await signUp(email, password)
+        const { error } = result;
+        if (error) {
+            console.error(error.message)
+            setErrorMsg(error.message);
+            return;
+        } 
+        navigate('/dashboard')
     }
 
     return (
