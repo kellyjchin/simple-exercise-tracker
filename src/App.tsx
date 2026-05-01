@@ -3,7 +3,6 @@ import Dashboard from './pages/Dashboard'
 import ProtectedRoute from './components/ProtectedRoute'
 import { Route, Routes } from 'react-router-dom'
 import Auth from './pages/Auth'
-import { AuthProvider } from './context/AuthContext'
 import { useAuth } from './context/AuthContext'
 
 function App() {

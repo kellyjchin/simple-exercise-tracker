@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 import type { WorkoutLog, WorkoutFormData } from '../types/workout'
 import { supabase } from '../lib/supabase'
-import type { Session } from '@supabase/supabase-js'
 import { useAuth } from '../context/AuthContext'
 
 export default function Dashboard() {
