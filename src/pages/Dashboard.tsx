@@ -3,6 +3,7 @@ import { useState } from 'react'
 import type { WorkoutLog, WorkoutFormData } from '../types/workout'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../context/AuthContext'
+import { createWorkoutLog, deleteWorkoutLog, getWorkoutLogs, updateWorkoutLog } from '../lib/exercises'
 
 export default function Dashboard() {
 
@@ -17,7 +18,7 @@ export default function Dashboard() {
     useEffect(() => {
         if(!session) return
         const fetchLogs = async () => {
-            const {data, error} = await supabase.from('simple_workout_log').select('*').returns<WorkoutLog[]>()
+            const {data, error} = await getWorkoutLogs(session.user.id)
             if(error) {
                 console.error('Error fetching workout logs:', error)
                 return
@@ -36,16 +37,7 @@ export default function Dashboard() {
         if( !formData.date || !formData.notes) return;
             
         const { date, notes } = formData;
-        const { data, error } = await supabase
-            .from('simple_workout_log')
-            .insert({
-                user_id: session.user.id,
-                date: date,
-                notes: notes
-            })
-            .select()
-            .returns<WorkoutLog[]>()
-
+        const { data, error } = await createWorkoutLog(session.user.id, date, notes)
 
         if(error) {
             console.error('Error adding workout log:', error)
@@ -57,11 +49,7 @@ export default function Dashboard() {
     }
 
     const handleDelete = async (id: string) => {
-        const { error } = await supabase
-            .from('simple_workout_log')
-            .delete()
-            .eq('id', id)
-        
+        const { error } = await deleteWorkoutLog(id)
         if(error) {
             console.error('Error deleting workout log:', error)
             return
@@ -72,14 +60,7 @@ export default function Dashboard() {
     const handleSave = async () => {
         if (!editForm || !editingId) return
 
-        const { error } = await supabase
-            .from('simple_workout_log')
-            .update({
-                date: editForm.date,
-                notes: editForm.notes,
-            })
-            .eq('id', editingId)
-            .select()
+        const { error } = await updateWorkoutLog(editingId, editForm.date, editForm.notes)
 
         if(error) {
             console.error('Error updating workout log:', error)
@@ -87,14 +68,13 @@ export default function Dashboard() {
         }
 
         setLogs(prev => prev.map(log => log.id === editingId ? { ...log, ...editForm } : log))
-
         setEditingId(null)
         setEditForm(null)
     }
 
     return (
         <>
-            <h1>This is the Dashboard</h1>
+            <h1>Dashboard</h1>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="date">Date:</label>
                 <input
