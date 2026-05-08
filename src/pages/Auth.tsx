@@ -67,12 +67,12 @@ function Auth() {
                     onChange={(e) => setPassword(e.target.value)}
                 />
 
-                <button className='p-2' type="submit">
+                <button className='p-2 navy' type="submit">
                     {isLogin ? 'Login' : 'Sign Up'}
                 </button>
             </form>
 
-            <button className='p-2 mt-2' onClick={() => setIsLogin(prev => !prev)}>
+            <button className='p-2 mt-2 navy' onClick={() => setIsLogin(prev => !prev)}>
                 {isLogin ? 'Create an account' : 'Already have an account?'}
             </button>
             { errorMsg ? <p style={{ color: 'red' }}>{errorMsg}</p> : ''}

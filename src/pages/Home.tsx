@@ -6,8 +6,8 @@ function Home() {
 
     return (
         <>
-            <h1>Simple Exercise Tracker (SET) 1.0</h1>
-            <p>Welcome! Here you can... track your exercises lol.</p>
+            <h1>Simple Exercise Tracker (SET)</h1>
+            <p>Here you can... track your exercises lol.</p>
             {session ? <Link to="/dashboard">Go to Dashboard</Link> : <Link to="/login">Login</Link>}
         </>
     )
