@@ -50,9 +50,10 @@ function Auth() {
         <div>
             <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
 
-            <form onSubmit={handleAuth}>
+            <form className="d-flex flex-column r-gap-3 p-2" onSubmit={handleAuth}>
                 <input
                     type="email"
+                    className='p-2'
                     placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -60,17 +61,18 @@ function Auth() {
 
                 <input
                     type="password"
+                    className='p-2'
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
 
-                <button type="submit">
+                <button className='p-2' type="submit">
                     {isLogin ? 'Login' : 'Sign Up'}
                 </button>
             </form>
 
-            <button onClick={() => setIsLogin(prev => !prev)}>
+            <button className='p-2 mt-2' onClick={() => setIsLogin(prev => !prev)}>
                 {isLogin ? 'Create an account' : 'Already have an account?'}
             </button>
             { errorMsg ? <p style={{ color: 'red' }}>{errorMsg}</p> : ''}

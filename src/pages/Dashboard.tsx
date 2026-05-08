@@ -96,7 +96,7 @@ export default function Dashboard() {
             </form>
 
             {logs.map(log => (
-                <div key={log.id}>
+                <div  style={{ whiteSpace: 'pre-wrap' }} className='log-entry' key={log.id}>
                     {editingId === log.id ? (
                         <>
                             {/* EDIT MODE */}
