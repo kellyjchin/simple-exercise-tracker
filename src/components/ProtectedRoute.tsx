@@ -17,7 +17,7 @@ function ProtectedRoute({ children }: Props) {
         return <Navigate to="/login" />
     }
 
-    return <div>{children}</div>
+    return <div className='protected-wrapper m-2'>{children}</div>
 }
 
 

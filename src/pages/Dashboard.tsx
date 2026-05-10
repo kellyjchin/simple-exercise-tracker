@@ -96,11 +96,12 @@ export default function Dashboard() {
             </form>
 
             {logs.map(log => (
-                <div  style={{ whiteSpace: 'pre-wrap' }} className='log-entry' key={log.id}>
+                <div  style={{ whiteSpace: 'pre-wrap' }} className='log-entry p-2 mb-2 border-navy-ridged bg-white text-black rounded-2' key={log.id}>
                     {editingId === log.id ? (
                         <>
                             {/* EDIT MODE */}
                             <input
+                            className='d-block'
                                 type="date"
                                 value={editForm?.date || ""}
                                 onChange={(e) =>
@@ -109,28 +110,33 @@ export default function Dashboard() {
                                 )}
                             />
                             <textarea
+                                className='d-block mt-2'
                                 value={editForm?.notes || ""}
                                 onChange={(e) =>
                                     setEditForm((prev) =>
                                         prev ? { ...prev, notes: e.target.value } : prev
                                 )}
                             />
-                            <button onClick={handleSave}>Save</button>
-                            <button onClick={() => {
-                                setEditingId(null)
-                                setEditForm(null)
-                            }}>Cancel</button>
+                            <div className='d-flex justify-content-end'>
+                                <button className='m-2 navy p-2' onClick={handleSave}>Save</button>
+                                <button className='m-2 navy p-2' onClick={() => {
+                                    setEditingId(null)
+                                    setEditForm(null)
+                                }}>Cancel</button>
+                            </div>
                         </>
                     ) : (
                         <>
                         {/* VIEW MODE */}
-                            <h3>{log.date}</h3>
-                            <p>{log.notes}</p>
-                            <button onClick={() => handleDelete(log.id)}>Delete</button>
-                            <button onClick={() =>  {
-                                setEditingId(log.id)
-                                setEditForm({ date: log.date, notes: log.notes })
-                            }}>Edit</button>
+                            <h3 className='m-2 ms-2 text-left'>{log.date}</h3>
+                            <p className='body m-2 text-left'>{log.notes}</p>
+                            <div className='d-flex justify-content-end'>
+                                <button className='m-2 navy p-2' onClick={() => handleDelete(log.id)}>Delete</button>
+                                <button className='m-2 navy p-2' onClick={() =>  {
+                                    setEditingId(log.id)
+                                    setEditForm({ date: log.date, notes: log.notes })
+                                }}>Edit</button>
+                            </div>
                         </>
                     )}
                 </div>
