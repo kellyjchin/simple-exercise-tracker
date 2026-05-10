@@ -211,6 +211,26 @@ code {
 .mb-2 {
   margin-bottom: 0.5rem !important;
 }
+.my-2 {
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+}
+.my-3 {
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
+}
+.w-80-vw {
+  width: 80vw !important;
+}
+.w-75-vw {
+  width: 75vw !important;
+}
+.h-200px {
+  height: 200px !important;
+}
+.justify-self-end {
+  justify-self: end !important;
+}
 .d-block {
   display: block !important;
 }
@@ -249,6 +269,9 @@ code {
 }
 .r-gap-3 {
   row-gap: 1rem !important;
+}
+.r-gap-2 {
+  row-gap: 0.5rem !important;
 }
 
 @media (min-width: 1024px) {  

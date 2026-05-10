@@ -14,6 +14,7 @@ export default function Dashboard() {
         date: '',
         notes: '',
     })
+    const [openModal, setOpenModal] = useState<boolean>(false)
 
     useEffect(() => {
         if(!session) return
@@ -46,6 +47,7 @@ export default function Dashboard() {
 
         setLogs(prev => [...prev, ...(data ?? [])])
         setFormData({ date: '', notes: ''})
+        setOpenModal(false);
     }
 
     const handleDelete = async (id: string) => {
@@ -75,26 +77,31 @@ export default function Dashboard() {
     return (
         <>
             <h1>Dashboard</h1>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="date">Date:</label>
-                <input
-                    type="date"
-                    id="date"
-                    value={formData.date}
-                    required
-                    onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                />
-                <label htmlFor="notes">Notes:</label>
-                <textarea
-                    id="notes"
-                    value={formData.notes}
-                    required
-                    onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                />
+            <dialog open={openModal} onClose={() => setOpenModal(false)} className='p-4 border-navy-ridged rounded-2 bg-white text-black w-75-vw'>
+                <button className='d-flex justify-self-end' onClick={() => setOpenModal(false)}>X</button>
+                <form className='d-flex flex-column r-gap-2' onSubmit={handleSubmit}>
+                    <label className='text-left' htmlFor="date">Date:</label>
+                    <input
+                        className='p-2'
+                        type="date"
+                        id="date"
+                        value={formData.date}
+                        required
+                        onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                    />
+                    <label className='text-left' htmlFor="notes">Entry:</label>
+                    <textarea
+                        id="notes"
+                        className='h-200px'
+                        value={formData.notes}
+                        required
+                        onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                    />
 
-                <button type="submit">Add Workout Log</button>
-            </form>
-
+                    <button className='navy py-2' type="submit">Add Workout Log</button>
+                </form>
+            </dialog>
+            <button className='my-3 navy p-2 d-flex' onClick={() => setOpenModal(true)}>Add a workout</button>
             {logs.map(log => (
                 <div  style={{ whiteSpace: 'pre-wrap' }} className='log-entry p-2 mb-2 border-navy-ridged bg-white text-black rounded-2' key={log.id}>
                     {editingId === log.id ? (
@@ -128,6 +135,7 @@ export default function Dashboard() {
                     ) : (
                         <>
                         {/* VIEW MODE */}
+                           
                             <h3 className='m-2 ms-2 text-left'>{log.date}</h3>
                             <p className='body m-2 text-left'>{log.notes}</p>
                             <div className='d-flex justify-content-end'>
