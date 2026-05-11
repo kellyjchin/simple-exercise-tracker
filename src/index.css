@@ -273,6 +273,9 @@ code {
 .r-gap-2 {
   row-gap: 0.5rem !important;
 }
+.pre-wrap {
+  white-space: pre-wrap !important;
+}
 
 @media (min-width: 1024px) {  
   .d-lg-block {

@@ -103,7 +103,7 @@ export default function Dashboard() {
             </dialog>
             <button className='my-3 navy p-2 d-flex' onClick={() => setOpenModal(true)}>Add a workout</button>
             {logs.map(log => (
-                <div  style={{ whiteSpace: 'pre-wrap' }} className='log-entry p-2 mb-2 border-navy-ridged bg-white text-black rounded-2' key={log.id}>
+                <div className='log-entry pre-wrap p-2 mb-2 border-navy-ridged bg-white text-black rounded-2' key={log.id}>
                     {editingId === log.id ? (
                         <>
                             {/* EDIT MODE */}
