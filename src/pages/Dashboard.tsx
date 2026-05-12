@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
 import type { WorkoutLog, WorkoutFormData } from '../types/workout'
-import { supabase } from '../lib/supabase'
 import { useAuth } from '../context/AuthContext'
 import { createWorkoutLog, deleteWorkoutLog, getWorkoutLogs, updateWorkoutLog } from '../lib/exercises'
 
