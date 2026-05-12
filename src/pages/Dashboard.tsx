@@ -100,7 +100,7 @@ export default function Dashboard() {
                     <button className='navy py-2' type="submit">Add Workout Log</button>
                 </form>
             </dialog>
-            <button className='my-3 navy p-2 d-flex' onClick={() => setOpenModal(true)}>Add a workout</button>
+            <button className='my-3 navy p-2 d-flex text-white' onClick={() => setOpenModal(true)}>Add a workout</button>
             {logs.map(log => (
                 <div className='log-entry pre-wrap p-2 mb-2 border-navy-ridged bg-white text-black rounded-2' key={log.id}>
                     {editingId === log.id ? (
@@ -138,8 +138,8 @@ export default function Dashboard() {
                             <h3 className='m-2 ms-2 text-left'>{log.date}</h3>
                             <p className='body m-2 text-left'>{log.notes}</p>
                             <div className='d-flex justify-content-end'>
-                                <button className='m-2 navy p-2' onClick={() => handleDelete(log.id)}>Delete</button>
-                                <button className='m-2 navy p-2' onClick={() =>  {
+                                <button className='m-2 navy p-2 text-white' onClick={() => handleDelete(log.id)}>Delete</button>
+                                <button className='m-2 navy p-2 text-white' onClick={() =>  {
                                     setEditingId(log.id)
                                     setEditForm({ date: log.date, notes: log.notes })
                                 }}>Edit</button>

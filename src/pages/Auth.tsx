@@ -72,7 +72,7 @@ function Auth() {
                 </button>
             </form>
 
-            <button className='p-2 mt-2 navy' onClick={() => setIsLogin(prev => !prev)}>
+            <button className='p-2 mt-2 navy text-white' onClick={() => setIsLogin(prev => !prev)}>
                 {isLogin ? 'Create an account' : 'Already have an account?'}
             </button>
             { errorMsg ? <p style={{ color: 'red' }}>{errorMsg}</p> : ''}
