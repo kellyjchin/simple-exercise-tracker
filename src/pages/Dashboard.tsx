@@ -124,8 +124,8 @@ export default function Dashboard() {
                                 )}
                             />
                             <div className='d-flex justify-content-end'>
-                                <button className='m-2 navy p-2' onClick={handleSave}>Save</button>
-                                <button className='m-2 navy p-2' onClick={() => {
+                                <button className='m-2 navy p-2 text-white' onClick={handleSave}>Save</button>
+                                <button className='m-2 navy p-2 text-white' onClick={() => {
                                     setEditingId(null)
                                     setEditForm(null)
                                 }}>Cancel</button>
